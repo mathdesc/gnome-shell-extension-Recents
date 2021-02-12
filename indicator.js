@@ -5,6 +5,7 @@ const {
     Clutter,
     Gio,
     GObject,
+    Gtk,
     Meta,
     Shell,
     St
@@ -14,7 +15,6 @@ const BoxPointer = imports.ui.boxpointer;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const Tweener = imports.tweener.tweener;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -59,7 +59,7 @@ class PopupMenuScrollableSection extends PopupMenu.PopupMenuSection {
     constructor() {
         super();
 
-        this.actor = new St.ScrollView({style_class: 'vfade', hscrollbar_policy: St.PolicyType.NEVER, vscrollbar_policy: St.PolicyType.NEVER});
+        this.actor = new St.ScrollView({style_class: 'vfade', hscrollbar_policy: Gtk.PolicyType.NEVER, vscrollbar_policy: Gtk.PolicyType.NEVER});
         this.actor.add_actor(this.box);
         this.actor._delegate = this;
         this.isOpen = true;
@@ -75,7 +75,8 @@ var RecentsIndicator = GObject.registerClass(class RecentsIndicatorClass extends
             this.RecentManager = new RecentManager.RecentManager({
                 itemsNumber: this._settings.get_int('items-number'),
                 caseSensitive: this._settings.get_boolean('case-sensitive'),
-                fileFullPath: this._settings.get_boolean('file-full-path')
+                fileFullPath: this._settings.get_boolean('file-full-path'),
+                excludeString: this._settings.get_string('exclude-string')
             });
 
             /* Popup Menu Indicator */
@@ -126,6 +127,12 @@ var RecentsIndicator = GObject.registerClass(class RecentsIndicatorClass extends
             });
             this._settings.connect('changed::file-full-path', this._changedFileFullPathHandler);
 
+	    this._changedExcludeStringHandler = Lang.bind(this, function() {
+                this.RecentManager.excludeString = this._settings.get_string('exclude-string');
+                this._rerender();
+            });
+            this._settings.connect('changed::exclude-string', this._changedExcludeStringHandler);
+
             this._changedItemsNumberHandler = Lang.bind(this, function() {
                 this.RecentManager.itemsNumber = this._settings.get_int('items-number');
                 this._rerender();
@@ -148,6 +155,7 @@ var RecentsIndicator = GObject.registerClass(class RecentsIndicatorClass extends
             this._settings.disconnect(this._changedRecentShortcutHandler);
             this._settings.disconnect(this._changedCaseSensitiveHandler);
             this._settings.disconnect(this._changedFileFullPathHandler);
+            this._settings.disconnect(this._changedExcludeStringHandler);
             this._settings.disconnect(this._changedItemsNumberHandler);
             this._settings.disconnect(this._changedPopupMenuWidthHandler);
             this._settings.disconnect(this._changeStatusIconHandler);

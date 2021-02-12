@@ -30,6 +30,7 @@ var RecentsPrefs = GObject.registerClass(class extends Gtk.Box {
         this.add(new positionWidget(this._settings));
         this.add(new useIconWidget(this._settings));
         this.add(new labelWidget(this._settings));
+        this.add(new excludeWidget(this._settings));
         this.add(new showArrowWidget(this._settings));
     }
 });
@@ -275,6 +276,30 @@ var labelWidget = GObject.registerClass(class labelWidgetClass extends Gtk.Box {
         this.add(this._entry);
     }
 });
+
+var excludeWidget = GObject.registerClass(class excludeWidget extends Gtk.Box {
+
+    _init(settings) {
+        super._init({ orientation: Gtk.Orientation.HORIZONTAL });
+
+        this._label = new Gtk.Label({ label: _('Exclude Folders/Files'), xalign: 0 });
+        this._entry = new Gtk.Entry({
+            text: settings.get_string('exclude-string'),
+            hexpand: true
+        });
+        this._entry.connect('changed', Lang.bind(this, function() {
+            let entry = this._entry.get_text();
+            if (entry === '' || entry === undefined) {
+                entry = '';
+            }
+            settings.set_string('exclude-string', entry);
+        }));
+
+        this.pack_start(this._label, true, true, 0);
+        this.add(this._entry);
+    }
+});
+
 
 
 var showArrowWidget = GObject.registerClass(class showArrowWidgetClass extends Gtk.Box {

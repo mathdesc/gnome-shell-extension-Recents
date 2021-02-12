@@ -54,6 +54,7 @@ var RecentManager = GObject.registerClass(
             this.itemsNumber = settings.itemsNumber;
             this.caseSensitive = settings.caseSensitive;
             this.fileFullPath = settings.fileFullPath;
+	    this.excludeString = settings.excludeString;
 
             this.proxy = new Gtk.RecentManager();
 
@@ -99,9 +100,17 @@ var RecentManager = GObject.registerClass(
             let i = 0;
             while (!done) {
                 let item = this._items[i];
+                let exreg = new RegExp(escapeSearch(this.excludeString));
                 let uri = this.getItemLabel(item);
-                if (reg.test(uri) === true) {
+                if (reg.test(uri) === true && exreg.test(uri) != true ) {
                     out.push(item);
+                } else if (exreg.test(uri) === true) {
+                    // For privacy ! If excluded match don't appear and remove from Recents.
+		    try {
+		        this.removeItem(item.get_uri());
+		    } catch(err) {
+		        log(err);
+		    }
                 }
 
                 i++;

@@ -86,6 +86,16 @@
 			</description>
 		</key>
 		
+		<key name="exclude-string" type="s">
+			<default>'~/Private'</default>
+			<summary>
+				Exclude Folders or Files
+			</summary>
+			<description>
+				A string to exclude folders or files from search and auto-purge them upon any search
+			</description>
+		</key>
+		
 		<key name="show-arrow" type="b">
 			<default>true</default>
 			<summary>

@@ -94,6 +94,8 @@ var ActionsItem = GObject.registerClass(class ActionsItemClass extends PopupMenu
             x_fill: false
         });
         _clear.connect('clicked', recentManager.clearAll.bind(recentManager));
+        // Purge excluded folders/files immediately
+        recentManager.query(" ");
         
         this.actor.add_child(_prefs);
         this.actor.add_child(_clear);

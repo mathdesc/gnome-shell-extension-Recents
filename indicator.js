@@ -182,6 +182,8 @@ var RecentsIndicator = GObject.registerClass(class RecentsIndicatorClass extends
         }
 
         _renderBody(searchString) {
+            // Purge excluded folders/files before rendering
+            this.RecentManager.query(" ");
             let items = this.RecentManager.query(searchString);
 
             for (let i = 0; i < items.length; ++i) {

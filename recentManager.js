@@ -16,6 +16,11 @@ const escapeSearch = function(str) {
     return str.replace(escapeRegExp, '\\$&');
 };
 
+const regExpSyntaxCharacter = /[\.]/g;
+RegExp.escape = function( value ) {
+    return (value + "").replace(regExpSyntaxCharacter, "\\$&");
+}
+
 function splitPath(filename) {
     return splitPathRe.exec(filename).slice(1);
 }
@@ -96,18 +101,26 @@ var RecentManager = GObject.registerClass(
             }
             
             let out = [];
-            let done = (0 === this._items.lenght);
+            let done = (0 === this._items.length);
             let i = 0;
+
+            let exreg = null
+            if (this.excludeString != "") {
+		exreg = new RegExp(RegExp.escape(this.excludeString));
+            }
+
             while (!done) {
                 let item = this._items[i];
-                let exreg = new RegExp(escapeSearch(this.excludeString));
                 let uri = this.getItemLabel(item);
-                if (reg.test(uri) === true && exreg.test(uri) != true ) {
+                if (reg.test(uri) === true && exreg && exreg.test(uri) != true ) {
+                    //log("("+exreg.test(uri)+") "+exreg);
                     out.push(item);
-                } else if (exreg.test(uri) === true) {
+                } else if (exreg && exreg.test(uri) === true) {
                     // For privacy ! If excluded match don't appear and remove from Recents.
 		    try {
+			//log("("+exreg.test(uri)+") "+exreg);
 		        this.removeItem(item.get_uri());
+		        done = (0 === this._items.length);
 		    } catch(err) {
 		        log(err);
 		    }

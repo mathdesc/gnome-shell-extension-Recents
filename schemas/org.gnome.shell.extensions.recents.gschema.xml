@@ -87,7 +87,7 @@
 		</key>
 		
 		<key name="exclude-string" type="s">
-			<default>'~/Private'</default>
+			<default>'~/(?:Images|Documents|Vid[eé]os)/[pP]rivate/'</default>
 			<summary>
 				Exclude Folders or Files
 			</summary>

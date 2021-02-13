@@ -10,11 +10,19 @@ Tested on 3.38.2
 ### Features:
 
 - purge all recent items
-- auto-purge from Recents, items excluded from search upon any search made
+- folders/files items excluded from search (regex pattern support)
+- auto-purge from Recents, items excluded upon any search made
 - ability to remove individual items
-- search box
+- search box ignoring excluded items
 - support shortcut to open indicator menu
 - open containing folder on right click
+
+### Exclusion Pattern example
+
+```
+~/(?:Images|Documents|Vid[eé]os)/[pP]rivate/
+```
+
 
 ### Installation
 

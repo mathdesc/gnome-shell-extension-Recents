@@ -32,8 +32,8 @@ Installation from git
 ```
 git clone git://github.com/mathdesc/gnome-shell-extension-Recents.git
 cd gnome-shell-extension-Recents
-mkdir ~/.local/share/gnome-shell/extensions/Recents@leonardo.bartoli.gmail.com
-cp -r ./ ~/.local/share/gnome-shell/extensions/Recents@leonardo.bartoli.gmail.com
+mkdir ~/.local/share/gnome-shell/extensions/Recents@mathdesc.yahoo.Fr
+cp -r ./ ~/.local/share/gnome-shell/extensions/Recents@mathdesc.yahoo.Fr
 ```
 
 Restart the shell and then enable the extension.

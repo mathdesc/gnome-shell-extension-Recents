@@ -86,7 +86,7 @@ var ActionsItem = GObject.registerClass(class ActionsItemClass extends PopupMenu
             x_fill: false
         });
         _prefs.connect('clicked', function() {
-            Util.spawn(['gnome-shell-extension-prefs', 'Recents@leonardo.bartoli.gmail.com']);
+            Util.spawn(['gnome-shell-extension-prefs', 'Recents@mathdesc.yahoo.fr']);
         });
 
         let _clear = new ClearBtn({

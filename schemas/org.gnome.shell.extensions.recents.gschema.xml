@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="leonardo.bartoli.gmail.com-extensions">
+<schemalist gettext-domain="mathdesc.yahoo.fr-extensions">
 
 	<enum id='org.gnome.shell.extensions.recents.positions'>
 		<value value='0' nick='right'/>
